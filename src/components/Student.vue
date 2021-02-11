@@ -2,7 +2,7 @@
 <template>
 <div class="container">
   <input type="text" v-model="search" placeholder="Search by name">
-   <div class="content" v-for="student in filterName " v-bind:key="student.id">
+   <div class="content" v-for="student in resultQuery" v-bind:key="student.id">
       <img class="image" :src="student.pic" alt="">
       <div class="student-info">
           <h1 class="info">{{student.firstName +" "+ student.lastName}}</h1>
@@ -24,31 +24,30 @@ export default {
   name: "Student.vue",
   data() {
     return {
-      students: '',
+      students:null,
       search: ''
     }
   },
-  mounted() {
-    axios
-        .get('https://api.hatchways.io/assessment/students')
-        .then((res) => {
-          this.students = (res.data.students)
-        })
+  async mounted() {
+    let studentsRaw = await axios.get('https://api.hatchways.io/assessment/students');
+    this.students = studentsRaw.data.students;
+    console.log(this.students.firstName = this.students.firstName.concat(this.students.lastName))
   },
   computed:{
-    filterName:function (){
-      return this.students.filter((student) => {
-        return student.company.match(this.search)
-      })
+    resultQuery(){
+      if(this.search.trim().length>0){
+        return this.students.filter((item)=>{
+          return this.search.toLowerCase().split(' ')
+              .every(v => item.firstName.toLowerCase().includes(v))
+        })
+      }else{
+        return this.students;
+      }
     }
   },
-  // computed :{
-  //   filterName:function (){
-  //     return this.info.filter((student)=>{
-  //       return student.company.matcth(this.search);
-  //     })
-  //   }
-  // }
+  // var search = student.filter(function (students){
+  //   return students.
+  // })
 }
 </script>
 
@@ -80,5 +79,13 @@ export default {
   border: 1px solid black;
   margin-right: 20px;
   margin-top: 15px;
+}
+input{
+  width: 70%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 20px;
+
 }
 </style>
