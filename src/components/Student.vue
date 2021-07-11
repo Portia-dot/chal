@@ -12,6 +12,18 @@
             <p class="email">{{ student.email }}</p>
             <p class="grade">{{ student.grades }}</p>
           </div>
+
+
+          <!-- <div class="content" v-for="student in resultQuery" v-bind:key="student.id">
+      <img class="image" :src="student.pic" alt="">
+      <div class="student-info">
+          <h1 class="info">{{student.firstName +" "+ student.lastName}}</h1>
+          <div class="infomation">
+            <p class="cop">{{ student.company }}</p>
+            <p class="ski">{{ student.skill }}</p>
+            <p class="email">{{ student.email }}</p>
+            <p class="grade">{{ student.grades }}</p>
+          </div> -->
       </div>
   </div>
 </div>
